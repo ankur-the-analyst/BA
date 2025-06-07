@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Business Requirements Document - Coffee Shop Automation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin:0; padding:0;
+      font-family: 'Inter', sans-serif;
+      background-color: #ffffff;
+      color: #6b7280;
+      line-height: 1.6;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      min-height: 100vh;
+      padding-bottom: 60px;
+    }
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 3rem 1rem 4rem;
+    }
+    /* Header */
+    .header {
+      background: #fff;
+      padding: 3rem 2rem 3rem;
+      margin-bottom: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+    .header h1 {
+      font-weight: 700;
+      font-size: 3.5rem;
+      color: #111827;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
+    }
+    .header .subtitle {
+      font-weight: 600;
+      font-size: 1.25rem;
+      color: #4b5563;
+      margin-bottom: 1.5rem;
+    }
+    .meta {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      color: #6b7280;
+    }
+    .meta-item {
+      padding: 0.5rem;
+      border-radius: 12px;
+      background: #f3f4f6;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #374151;
+      border: 1px solid #e5e7eb;
+      text-align: center;
+      user-select: none;
+      transition: background-color 0.3s ease;
+    }
+    .meta-item strong {
+      display: block;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+      color: #111827;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    /* Section */
+    .section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      color: #374151;
+      page-break-inside: avoid;
+    }
+    .section-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 2rem;
+      padding-left: 0.5rem;
+      border-left: 5px solid #3b82f6;
+      user-select: none;
+      letter-spacing: -0.02em;
+    }
+    /* Grid Utilities */
+    .grid {
+      display: grid;
+      gap: 2rem;
+    }
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    }
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+    /* Cards */
+    .card {
+      background: #f9fafb;
+      border-radius: 12px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+      padding: 1.8rem 2rem;
+      transition: box-shadow 0.3s ease;
+      color: #374151;
+      page-break-inside: avoid;
+    }
+    .card:hover {
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    }
+    .card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 1rem;
+      user-select: none;
+    }
+    .priority-high {
+      border-left: 5px solid #ef4444; /* red-500 */
+    }
+    .priority-medium {
+      border-left: 5px solid #fbbf24; /* yellow-400 */
+    }
+    .priority-low {
+      border-left: 5px solid #10b981; /* green-500 */
+    }
+    ul {
+      list-style: none;
+      padding-left: 1.25rem;
+      margin: 0;
+    }
+    li {
+      padding: 0.6rem 0;
+      position: relative;
+      color: #4b5563;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      list-style-type: none;
+    }
+    /* Table */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-top: 1rem;
+      page-break-inside: auto;
+    }
+    thead tr {
+      background: #3b82f6; /* blue-500 */
+      color: #fff;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      user-select: none;
+    }
+    th, td {
+      padding: 1rem 1.25rem;
+      text-align: left;
+      border-bottom: 1px solid #e5e7eb;
+    }
+    tbody tr:hover {
+      background: #dbeafe; /* blue-100 */
+    }
+    /* Status badge */
+    .status-badge {
+      display: inline-block;
+      padding: 0.25rem 0.9rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      user-select: none;
+    }
+    .status-critical {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+    .status-high {
+      background: #fef3c7;
+      color: #b45309;
+    }
+    .status-medium {
+      background: #d1fae5;
+      color: #047857;
+    }
+    /* Implementation Timeline Horizontal 2 rows */
+    .timeline-horizontal-2rows {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.75rem 2rem;
+      user-select: none;
+    }
+    .timeline-item-2rows {
+      background: #f3f4f6;
+      border-radius: 12px;
+      padding: 1.75rem 1.5rem;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.1);
+      border: 1px solid #dbeafe;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.3s ease;
+    }
+    .timeline-item-2rows:hover {
+      box-shadow: 0 10px 30px rgba(59, 130, 246, 0.3);
+      transform: translateY(-6px);
+    }
+    .timeline-item-2rows h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1e293b;
+      margin-bottom: 1rem;
+    }
+    /* Footer 3 column container */
+    .footer-3col {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem 2rem;
+      margin-bottom: 3rem;
+    }
+    .footer-3col > section {
+      background: #f9fafb;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.07);
+      padding: 2rem 2.5rem;
+      color: #374151;
+      user-select: none;
+    }
+    .footer-3col > section h2 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #111827;
+      margin-bottom: 1.25rem;
+      border-left: none;
+      padding-left: 0;
+    }
+    ul.footer-list {
+      list-style: none;
+      padding-left: 1.25rem;
+      margin: 0;
+    }
+    ul.footer-list li {
+      padding: 0.6rem 0;
+      list-style-type: none;
+      color: #4b5563;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+    }
+    /* Workflow diagrams */
+    .workflow-diagram {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+      page-break-inside: avoid;
+    }
+    .workflow-step {
+      display: flex;
+      align-items: flex-start;
+      margin: 1rem 0;
+      background: #e0e7ff;
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      border-left: 6px solid #3b82f6;
+      transition: box-shadow 0.3s ease;
+      user-select: none;
+    }
+    .workflow-step:hover {
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
+      transform: translateX(10px);
+    }
+    .step-number {
+      background: #3b82f6;
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-right: 1rem;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    /* Use case diagram */
+    .use-case-diagram {
+      background: #f9fafb;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      user-select: none;
+    }
+    .actor {
+      background: #3b82f6;
+      color: white;
+      border-radius: 9999px;
+      padding: 0.8rem 2rem;
+      margin: 0.6rem 0.8rem;
+      display: inline-block;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(59,130,246,0.25);
+      user-select: none;
+    }
+    .use-case {
+      background: #bfdbfe;
+      border: 2px solid #3b82f6;
+      border-radius: 9999px;
+      padding: 0.5rem 1.5rem;
+      margin: 0.7rem 0.8rem;
+      display: inline-block;
+      color: #1e293b;
+      font-weight: 600;
+      user-select: none;
+      font-size: 1rem;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .timeline-horizontal-2rows {
+        grid-template-columns: 1fr 1fr;
+      }
+      .footer-3col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    @media (max-width: 600px) {
+      .timeline-horizontal-2rows {
+        grid-template-columns: 1fr;
+      }
+      .footer-3col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Print Styles for PDF */
+    @media print {
+      body {
+        margin: 10mm;
+        background: white;
+        color: #374151;
+        font-size: 12pt;
+      }
+      .header {
+        position: static !important;
+        box-shadow: none !important;
+        margin-bottom: 1rem !important;
+        padding: 1rem 0 !important;
+      }
+      .container {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+      .section {
+        page-break-inside: avoid;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 1rem;
+        margin-bottom: 2rem;
+      }
+      .card {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 1rem !important;
+      }
+      table {
+        break-inside: avoid !important;
+        page-break-inside: avoid !important;
+        border: 1px solid #ddd !important;
+      }
+      /* Landscape page size */
+      @page {
+        size: landscape;
+        margin: 15mm;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header Section -->
+    <header class="header" role="banner">
+      <h1>☕ Business Requirements Document</h1>
+      <div class="subtitle">Startup Coffee Shop Automation System</div>
+      <div class="meta" role="list">
+        <div class="meta-item" role="listitem">
+          <strong>Version</strong>
+          1.0
+        </div>
+        <div class="meta-item" role="listitem">
+          <strong>Document Date</strong>
+          June 2025
+        </div>
+        <div class="meta-item" role="listitem">
+          <strong>Project Type</strong>
+          Automation Implementation
+        </div>
+        <div class="meta-item" role="listitem">
+          <strong>Timeline</strong>
+          6 Weeks
+        </div>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <section class="section" aria-labelledby="executive-summary">
+      <h2 class="section-title" id="executive-summary">📋 Executive Summary</h2>
+      <div class="grid grid-2">
+        <article class="card" role="region" aria-label="Project Overview">
+          <h3>🎯 Project Overview</h3>
+          <p>This BRD outlines the comprehensive automation strategy for a startup coffee shop, focusing on streamlining operations, enhancing customer experience, and establishing scalable systems for future growth. The automation initiative covers POS systems, inventory management, customer relationship management, staff scheduling, and data analytics.</p>
+        </article>
+        <article class="card" role="region" aria-label="Business Objectives">
+          <h3>💼 Business Objectives</h3>
+          <ul>
+            <li>Increase operational efficiency by 35%</li>
+            <li>Reduce manual errors by 80%</li>
+            <li>Improve customer satisfaction scores to 4.5+</li>
+            <li>Establish data-driven decision making</li>
+            <li>Create scalable foundation for multi-location expansion</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Business Problem Statement -->
+    <section class="section" aria-labelledby="problem-statement">
+      <h2 class="section-title" id="problem-statement">🚧 Business Problem Statement</h2>
+      <p>The coffee shop currently relies on manual processes that result in inefficiencies, high labor costs, inaccurate inventory management, and poor customer data utilization. There is a need to automate operations to ensure scalability, accuracy, and a better customer experience.</p>
+    </section>
+
+    <!-- Scope of Work -->
+    <section class="section" aria-labelledby="scope-of-work">
+      <h2 class="section-title" id="scope-of-work">🧭 Scope of Work</h2>
+      <div class="grid grid-2">
+        <article class="card" role="region" aria-label="In Scope">
+          <h3>✅ In Scope</h3>
+          <ul>
+            <li>POS System Implementation</li>
+            <li>CRM and Loyalty Program</li>
+            <li>Inventory and Staff Management</li>
+            <li>Online Ordering &amp; Customer Notifications</li>
+            <li>Sales Analytics &amp; Reporting</li>
+          </ul>
+        </article>
+        <article class="card" role="region" aria-label="Out of Scope">
+          <h3>❌ Out of Scope</h3>
+          <ul>
+            <li>Franchise Expansion Planning</li>
+            <li>Hardware Procurement</li>
+            <li>HR Policy Formulation</li>
+            <li>Vendor Legal Agreements</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Stakeholder Analysis -->
+    <section class="section" aria-labelledby="stakeholder-analysis">
+      <h2 class="section-title" id="stakeholder-analysis">👥 Stakeholder Analysis</h2>
+      <table role="table" aria-describedby="stakeholders-desc">
+        <caption id="stakeholders-desc" hidden>Stakeholder roles, responsibilities and impact level</caption>
+        <thead>
+          <tr>
+            <th scope="col">Stakeholder</th>
+            <th scope="col">Role</th>
+            <th scope="col">Responsibilities</th>
+            <th scope="col">Impact Level</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Shop Owner/Manager</td>
+            <td>Primary Decision Maker</td>
+            <td>Strategy approval, budget allocation, ROI monitoring</td>
+            <td><span class="status-badge status-critical">Critical</span></td>
+          </tr>
+          <tr>
+            <td>Baristas/Staff</td>
+            <td>End Users</td>
+            <td>Daily system operation, customer service</td>
+            <td><span class="status-badge status-high">High</span></td>
+          </tr>
+          <tr>
+            <td>Customers</td>
+            <td>Service Recipients</td>
+            <td>System feedback, loyalty program participation</td>
+            <td><span class="status-badge status-high">High</span></td>
+          </tr>
+          <tr>
+            <td>IT Implementation Team</td>
+            <td>Technical Support</td>
+            <td>System setup, training, maintenance</td>
+            <td><span class="status-badge status-medium">Medium</span></td>
+          </tr>
+          <tr>
+            <td>Suppliers</td>
+            <td>Business Partners</td>
+            <td>Integration with ordering systems</td>
+            <td><span class="status-badge status-medium">Medium</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Functional Requirements -->
+    <section class="section" aria-labelledby="functional-requirements">
+      <h2 class="section-title" id="functional-requirements">⚙️ Functional Requirements</h2>
+      <div class="grid grid-3">
+        <article class="card priority-high" role="region" aria-label="Point of Sale (POS) System">
+          <h3>🛒 Point of Sale (POS) System</h3>
+          <ul>
+            <li>Process orders and payments</li>
+            <li>Handle multiple payment methods</li>
+            <li>Generate receipts and invoices</li>
+            <li>Track sales in real-time</li>
+            <li>Support split payments</li>
+            <li>Offline capability during outages</li>
+          </ul>
+        </article>
+        <article class="card priority-high" role="region" aria-label="Inventory Management">
+          <h3>📦 Inventory Management</h3>
+          <ul>
+            <li>Real-time stock tracking</li>
+            <li>Automated reorder alerts</li>
+            <li>Supplier integration</li>
+            <li>Waste tracking and reporting</li>
+            <li>Cost analysis per item</li>
+            <li>Expiration date monitoring</li>
+          </ul>
+        </article>
+        <article class="card priority-medium" role="region" aria-label="Customer Relationship Management">
+          <h3>👨‍💼 Customer Relationship Management</h3>
+          <ul>
+            <li>Customer database management</li>
+            <li>Loyalty program automation</li>
+            <li>Personalized promotions</li>
+            <li>Email marketing campaigns</li>
+            <li>Customer feedback collection</li>
+            <li>Purchase history tracking</li>
+          </ul>
+        </article>
+        <article class="card priority-medium" role="region" aria-label="Online Ordering System">
+          <h3>📱 Online Ordering System</h3>
+          <ul>
+            <li>Mobile-friendly ordering interface</li>
+            <li>Real-time menu updates</li>
+            <li>Order scheduling and pickup times</li>
+            <li>Integration with POS system</li>
+            <li>Customer notification system</li>
+            <li>Delivery tracking (if applicable)</li>
+          </ul>
+        </article>
+        <article class="card priority-low" role="region" aria-label="Staff Management">
+          <h3>👥 Staff Management</h3>
+          <ul>
+            <li>Automated shift scheduling</li>
+            <li>Time tracking and attendance</li>
+            <li>Payroll integration</li>
+            <li>Performance monitoring</li>
+            <li>Training module tracking</li>
+            <li>Communication tools</li>
+          </ul>
+        </article>
+        <article class="card priority-medium" role="region" aria-label="Analytics & Reporting">
+          <h3>📊 Analytics & Reporting</h3>
+          <ul>
+            <li>Sales performance dashboards</li>
+            <li>Customer behavior analytics</li>
+            <li>Inventory turnover reports</li>
+            <li>Financial summaries</li>
+            <li>Peak hour analysis</li>
+            <li>Predictive forecasting</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- Non-Functional Requirements -->
+    <section class="section" aria-labelledby="nonfunctional">
+      <h2 class="section-title" id="nonfunctional">🧩 Non-Functional Requirements</h2>
+      <ul>
+        <li>System uptime ≥ 99.5%</li>
+        <li>Daily data backups</li>
+        <li>Interface load time ≤ 2 seconds</li>
+        <li>Full mobile compatibility</li>
+        <li>Scalability for multi-branch support</li>
+        <li>Compliance with data protection laws (e.g., GDPR)</li>
+      </ul>
+    </section>
+
+    <!-- Technology Stack -->
+    <section class="section" aria-labelledby="technology-stack">
+      <h2 class="section-title" id="technology-stack">💻 Technology Stack &amp; Budget</h2>
+      <table role="table" aria-describedby="techstack-desc">
+        <caption id="techstack-desc" hidden>Recommended tools and budget for coffee shop automation</caption>
+        <thead>
+          <tr>
+            <th scope="col">Function</th>
+            <th scope="col">Recommended Tool</th>
+            <th scope="col">Alternative Options</th>
+            <th scope="col">Monthly Cost</th>
+            <th scope="col">Key Features</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>POS System</td>
+            <td>Square POS</td>
+            <td>Toast, Clover</td>
+            <td>$0 - $60</td>
+            <td>Payment processing, inventory sync, reporting</td>
+          </tr>
+          <tr>
+            <td>Inventory Management</td>
+            <td>MarketMan</td>
+            <td>Zoho Inventory, inFlow</td>
+            <td>$99</td>
+            <td>Auto-ordering, cost control, supplier management</td>
+          </tr>
+          <tr>
+            <td>Accounting</td>
+            <td>QuickBooks</td>
+            <td>Xero, FreshBooks</td>
+            <td>$30</td>
+            <td>Financial reporting, tax preparation, invoicing</td>
+          </tr>
+          <tr>
+            <td>CRM &amp; Marketing</td>
+            <td>HubSpot</td>
+            <td>Mailchimp, ActiveCampaign</td>
+            <td>$20 - $40</td>
+            <td>Email campaigns, customer segmentation, analytics</td>
+          </tr>
+          <tr>
+            <td>Staff Management</td>
+            <td>Homebase</td>
+            <td>Deputy, When I Work</td>
+            <td>$20/user</td>
+            <td>Scheduling, time tracking, payroll integration</td>
+          </tr>
+          <tr>
+            <td>Online Ordering</td>
+            <td>GloriaFood</td>
+            <td>ChowNow, Grubhub</td>
+            <td>Free - $30</td>
+            <td>Online menu, order management, customer notifications</td>
+          </tr>
+          <tr>
+            <td>Loyalty Program</td>
+            <td>Fivestars</td>
+            <td>Smile.io, LoyaltyLion</td>
+            <td>$30</td>
+            <td>Points system, automated rewards, customer retention</td>
+          </tr>
+        </tbody>
+      </table>
+      <article class="card" style="margin-top: 2rem;" role="region" aria-label="Total Monthly Investment">
+        <h3>💰 Total Monthly Investment: $299 - $369</h3>
+        <p>This investment represents approximately 5-8% of typical monthly revenue for a small coffee shop, with expected ROI within 3-4 months through efficiency gains and increased customer retention.</p>
+      </article>
+    </section>
+
+    <!-- Risk Assessment -->
+    <section class="section" aria-labelledby="risk-assessment">
+      <h2 class="section-title" id="risk-assessment">🚨 Risk Assessment</h2>
+      <table role="table" aria-describedby="risks-desc">
+        <caption id="risks-desc" hidden>Risk likelihood, impact and mitigation details</caption>
+        <thead>
+          <tr>
+            <th scope="col">Risk</th>
+            <th scope="col">Likelihood</th>
+            <th scope="col">Impact</th>
+            <th scope="col">Mitigation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Internet Failure</td>
+            <td>Medium</td>
+            <td>High</td>
+            <td>POS system should function offline</td>
+          </tr>
+          <tr>
+            <td>Staff Resistance</td>
+            <td>Medium</td>
+            <td>Medium</td>
+            <td>Offer onboarding sessions and incentives</td>
+          </tr>
+          <tr>
+            <td>Cost Overrun</td>
+            <td>Low</td>
+            <td>High</td>
+            <td>Use strict vendor evaluation and phased rollout</td>
+          </tr>
+          <tr>
+            <td>Data Breach</td>
+            <td>Low</td>
+            <td>High</td>
+            <td>Secure cloud infrastructure with encryption</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer 3 column grid -->
+    <div class="footer-3col">
+      <section aria-labelledby="success-metrics">
+        <h2 id="success-metrics">📈 Success Metrics</h2>
+        <ul class="footer-list">
+          <li>Order processing time reduced by 50%</li>
+          <li>Inventory wastage decreased by 30%</li>
+          <li>70% of customers enrolled in loyalty program</li>
+          <li>20% increase in repeat customer visits</li>
+        </ul>
+      </section>
+      <section aria-labelledby="support-plan">
+        <h2 id="support-plan">🛠️ Maintenance &amp; Support Plan</h2>
+        <ul class="footer-list">
+          <li>Weekly data validation</li>
+          <li>Monthly vendor review calls</li>
+          <li>Quarterly technical audits</li>
+          <li>Support via ticketing system &amp; WhatsApp</li>
+        </ul>
+      </section>
+      <section aria-labelledby="change-management">
+        <h2 id="change-management">🔁 Change Management</h2>
+        <ul class="footer-list">
+          <li>Pre-implementation staff training (manuals &amp; videos)</li>
+          <li>Dedicated change champions for feedback</li>
+          <li>Open feedback loop and helpdesk for 3 months</li>
+        </ul>
+      </section>
+    </div>
+
+  </div>
+</body>
+</html>
